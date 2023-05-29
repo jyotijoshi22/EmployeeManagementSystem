@@ -1,8 +1,8 @@
 import { useState } from "react";
 import reactLogo from "./assets/react.svg";
 import "./App.css";
-import CreateEmployee from "./components/CreateEmployee";
-import EmployeeList from "./components/EmployeeList";
+import CreateEmployee from "./components/CreateEmployee/CreateEmployee";
+import EmployeeList from "./components/EmployeeList/EmployeeList";
 import { BrowserRouter, Routes, Route } from "react-router-dom";
 
 function App() {

@@ -1,8 +1,9 @@
 import React, { useState, useEffect } from "react";
 import { Link } from "react-router-dom";
-import EmployeeService from "../services/EmployeeService";
+import EmployeeService from "../../services/EmployeeService";
 import { RouteProps } from "react-router-dom";
-import { Employee } from "../interface/EmployeeInterface";
+import { Employee } from "../../interface/EmployeeInterface";
+import styles from "./EmployeeList.module.scss";
 
 const EmployeeList: React.FC<RouteProps> = () => {
   const [employees, setEmployees] = useState<Employee[]>([]);
@@ -23,24 +24,23 @@ const EmployeeList: React.FC<RouteProps> = () => {
 
   return (
     <div>
-      <h2 className="text-center">Employee's List</h2>
+      <h2 className={styles.heading}>EMPLOYEE MANAGEMENT SYSTEM</h2>
 
-      <div className="row">
-        <h3> Please click on Edit to find more details of each employee</h3>
-        <Link to="/add-employee" className="btn btn-primary">
+      <div className={styles.Click}>
+        <Link to="/add-employee" className={styles.addEmployee}>
           ADD EMPLOYEE
         </Link>
       </div>
 
       <div className="row">
-        <table className="table table-striped table-bordered">
+        <table>
           <thead>
             <tr>
-              <th>First Name</th>
-              <th>Middle Name</th>
-              <th>Last Name</th>
-              <th>Email</th>
-              <th>Action</th>
+              <th>FIRST NAME</th>
+              <th>MIDDLE NAME</th>
+              <th>LAST NAME</th>
+              <th>EMAIL</th>
+              <th>ACTION</th>
             </tr>
           </thead>
           <tbody>

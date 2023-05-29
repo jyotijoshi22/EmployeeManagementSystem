@@ -1,0 +1,51 @@
+.Para {
+  padding-top: 13px;
+  font-size: 20px;
+}
+
+Button {
+  background-color: lightcoral;
+  border: none;
+  border-radius: 10px;
+  color: white;
+  cursor: pointer;
+  padding: 5px 5px;
+  display: inline;
+  margin-right: 10px;
+  font-size: 10px;
+}
+table {
+  border-collapse: collapse;
+  width: 100%;
+
+  tr {
+    border-bottom: 1px solid #ccc;
+
+    &:first-child {
+      border-top: 1px solid #ccc;
+    }
+  }
+
+  td {
+    padding: 8px;
+  }
+}
+.heading {
+  display: flex;
+  justify-content: space-between;
+  padding: 10px 0;
+  color: blue;
+  width: 50vw;
+  margin-left: auto;
+  margin-right: auto;
+  font-size: 30px;
+}
+.addEmployee {
+  display: flex;
+  justify-content: space-between;
+  color: rgb(47, 0, 255);
+  width: 100vw;
+  margin-left: 500px;
+  margin-right: 0px;
+  font-size: 20px;
+}

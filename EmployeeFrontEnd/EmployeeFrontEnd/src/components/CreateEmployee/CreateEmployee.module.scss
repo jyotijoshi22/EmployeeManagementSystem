@@ -1,0 +1,98 @@
+// Variables
+$primaryColor: #007bff;
+$secondaryColor: #0967be;
+$buttonHeight: 40px;
+$buttonWidth: 120px;
+$formFieldHeight: 40px;
+$borderColor: #131212;
+
+// Styles
+.inputContainer input {
+  width: 30%;
+  padding: 5px;
+  border-radius: 4px;
+  font-size: 14px;
+  margin-bottom: 20px;
+}
+.firstNameInput {
+  width: 150px;
+}
+.sectionTitle {
+  font-weight: bold;
+  margin-bottom: 10px;
+  border-radius: 4px;
+  border: 2px solid #000;
+  text-align: center;
+}
+.startDateContainer {
+  display: flex;
+  justify-content: space-between;
+  margin-bottom: 20px;
+}
+
+.startDateField {
+  flex: 1;
+  margin-right: 10px;
+}
+.form-container {
+  justify-content: space-between;
+  border: 2px solid #000;
+  border-radius: 5px;
+  padding: 20px;
+  margin-bottom: 20px;
+  max-width: 600px;
+  margin: 0 auto;
+  padding: 20px;
+}
+
+h2 {
+  font-size: 1.5rem;
+  margin-bottom: 20px;
+}
+
+label {
+  display: block;
+  margin-bottom: 5px;
+  color: $secondaryColor;
+}
+
+input,
+select {
+  height: $formFieldHeight;
+  padding: 0 10px;
+  border: 1px solid $borderColor;
+  border-radius: 4px;
+  width: 100%;
+}
+
+button {
+  height: $buttonHeight;
+  width: $buttonWidth;
+  margin-top: 10px;
+  border: none;
+  border-radius: 4px;
+  font-size: 1rem;
+  color: #fff;
+  cursor: pointer;
+  transition: background-color 0.3s ease;
+
+  &.save-button {
+    background-color: $primaryColor;
+  }
+
+  &.cancel-button {
+    background-color: #ccc;
+  }
+
+  &:hover {
+    background-color: darken($primaryColor, 10%);
+  }
+}
+#startDateDay {
+  width: 10px; // Adjust the width as needed
+}
+.inputContainer {
+  display: flex;
+  align-items: center;
+  margin-bottom: 10px;
+}
