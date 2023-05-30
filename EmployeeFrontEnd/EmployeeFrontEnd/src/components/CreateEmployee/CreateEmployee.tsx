@@ -5,29 +5,79 @@ import { Employee } from "../../interface/EmployeeInterface";
 import styles from "./CreateEmployee.module.scss";
 import GoogleAutocomplete from "react-google-autocomplete";
 
+import "react-datepicker/dist/react-datepicker.css";
+
 const CreateEmployee = () => {
-  // const [employee, setNewEmployee] = useState<Employee>;
+  const [employee, setNewEmployee] = useState<Employee>({
+    id: "",
+    firstName: "",
+    middleName: "",
+    lastName: "",
+    emailId: "",
+    contactNumber: "",
+    address: "",
+    contractType: "",
+    startDate: "",
+    finishDate: "",
+    onGoing: "",
+    workTimeType: "",
+    hoursPerWeek: "",
+  });
+  const [startFinishDates, setStartFinishDates] = useState({
+    startDateDay: "",
+    startDateMonth: "",
+    startDateYear: "",
+    finishDateDay: "",
+    finishDateMonth: "",
+    finishDateYear: "",
+  });
+  const [ongoing, setOngoing] = useState("false");
+  const [workingType, setWorkingType] = useState("");
+  const handleContractTypeChange = (
+    event: React.ChangeEvent<HTMLInputElement>
+  ) => {
+    setNewEmployee((prevEmployee) => ({
+      ...prevEmployee,
+      contractType: event.target.value,
+    }));
+  };
 
   let navigate = useNavigate();
 
-  // const handleChange = (event: React.ChangeEvent<HTMLInputElement>) => {
-  //   const { name, value } = event.target;
-  //   console.log(name, value);
+  const handleDatesChange = (e: { target: { name: any; value: any } }) => {
+    setStartFinishDates({
+      ...startFinishDates,
+      [e.target.name]: e.target.value,
+    });
+  };
 
-  //   setNewEmployee((prevState) => ({
-  //     ...prevState,
-  //     [name]: value,
-  //   }));
-  // };
+  const handleChange = (e: { target: { name: any; value: any } }) => {
+    const { name, value } = e.target;
+    setNewEmployee((prevEmployee) => ({
+      ...prevEmployee,
+      [name]: value,
+    }));
+  };
 
-  // const handleSubmit = (e: any) => {
-  //   e.preventDefault(); // prevent the default form submission behavior
-  //   console.log(employee);
-  //   axios.post("http://127.0.0.1:5173/employee/create", employee).then(() => {
-  //     navigate("/employee");
-  //     console.log(employee);
-  //   });
-  // };
+  const handleSubmit = (e: { preventDefault: () => void }) => {
+    e.preventDefault();
+
+    // Including the ongoing value
+    const payload = {
+      ...employee,
+      onGoing: ongoing,
+      workTimeType: workingType,
+    };
+    axios
+      .post("http://127.0.0.1:5173/employee/create", payload)
+      .then(() => {
+        navigate("/employee");
+      })
+      .catch((error) => {
+        console.log("Error saving employee:", error);
+      });
+  };
+
   const handleAddressSelect = (address: any) => {
     console.log(address); // Do something with the selected address
   };
@@ -44,6 +94,7 @@ const CreateEmployee = () => {
           pattern="[A-Za-z]{1,30}"
           required
           placeholder="John"
+          onChange={handleChange}
           className={styles.firstNameInput}
         />
       </div>
@@ -54,6 +105,7 @@ const CreateEmployee = () => {
           type="text"
           name="middleName"
           pattern="[A-Za-z]{1,30}"
+          onChange={handleChange}
         />
       </div>
       <div className={styles.inputContainer}>
@@ -65,6 +117,7 @@ const CreateEmployee = () => {
           pattern="[A-Za-z]{1,30}"
           required
           placeholder="Smith"
+          onChange={handleChange}
         />
       </div>
 
@@ -78,6 +131,7 @@ const CreateEmployee = () => {
             name="emailAddress"
             required
             placeholder="sam.riley@gmail.com"
+            onChange={handleChange}
           />
         </div>
         <div className={styles.inputContainer}>
@@ -91,6 +145,7 @@ const CreateEmployee = () => {
             pattern="[0-9]{10}"
             required
             placeholder="0412345678"
+            onChange={handleChange}
           />
         </div>
         <div className={styles.inputContainer}>
@@ -115,6 +170,8 @@ const CreateEmployee = () => {
           type="radio"
           name="contractType"
           value="permanent"
+          checked={employee.contractType === "permanent"}
+          onChange={handleContractTypeChange}
         />
       </div>
       <div>
@@ -124,8 +181,11 @@ const CreateEmployee = () => {
           type="radio"
           name="contractType"
           value="permanent"
+          checked={employee.contractType === "contract"}
+          onChange={handleContractTypeChange}
         />
       </div>
+
       <p> Start Date</p>
       <div className={styles.startDateContainer}>
         <div className={styles.startDateField}>
@@ -136,6 +196,8 @@ const CreateEmployee = () => {
             id="startDateDay"
             type="number"
             name="startDateDay"
+            value={startFinishDates.startDateDay}
+            onChange={handleDatesChange}
             min={1}
             max={31}
             required
@@ -144,7 +206,11 @@ const CreateEmployee = () => {
         </div>
         <div>
           <label>Month</label>
-          <select name="startDateMonth">
+          <select
+            name="startDateMonth"
+            value={startFinishDates.startDateMonth}
+            onChange={handleDatesChange}
+          >
             <option value="01">Jan</option>
             <option value="02">Feb</option>
             <option value="03">March</option>
@@ -169,6 +235,8 @@ const CreateEmployee = () => {
             placeholder="2021"
             min={new Date().getFullYear() - 40}
             max={new Date().getFullYear()}
+            value={startFinishDates.startDateYear}
+            onChange={handleDatesChange}
           />
         </div>
       </div>
@@ -186,11 +254,17 @@ const CreateEmployee = () => {
             max={31}
             required
             placeholder="28"
+            value={startFinishDates.finishDateDay}
+            onChange={handleDatesChange}
           />
         </div>
         <div>
           <label>Month</label>
-          <select name="finishDateMonth">
+          <select
+            name="finishDateMonth"
+            onChange={handleDatesChange}
+            value={startFinishDates.finishDateMonth}
+          >
             <option value="01">Jan</option>
             <option value="02">Feb</option>
             <option value="03">March</option>
@@ -208,29 +282,52 @@ const CreateEmployee = () => {
         <div>
           <label htmlFor="finishDateYear">Year</label>
           <input
-            id="sfinishDateYear"
+            id="finishDateYear"
             type="number"
             name="finishDateYear"
             required
             placeholder="2021"
             min={new Date().getFullYear() - 40}
             max={new Date().getFullYear()}
+            onChange={handleDatesChange}
+            value={startFinishDates.finishDateYear}
           />
         </div>
       </div>
 
       <div>
-        <input id="onGoing" type="checkbox" />
+        <input
+          id="onGoing"
+          type="checkbox"
+          checked={ongoing === "true"}
+          onChange={(event) =>
+            setOngoing(event.target.checked ? "true" : "false")
+          }
+        />
         <label htmlFor="onGoing">On going</label>
       </div>
 
       <p> Is this on a full-time or part-time basis?</p>
       <div>
-        <input id="fullTime" type="radio" name="workingType" value="fullTime" />
+        <input
+          id="fullTime"
+          type="radio"
+          name="workingType"
+          value="fullTime"
+          checked={workingType === "fullTime"}
+          onChange={(e) => setWorkingType(e.target.value)}
+        />
         <label>Full-time </label>
       </div>
       <div>
-        <input id="partTime" type="radio" name="workingType" value="partTime" />
+        <input
+          id="partTime"
+          type="radio"
+          name="workingType"
+          value="partTime"
+          checked={workingType === "partTime"}
+          onChange={(e) => setWorkingType(e.target.value)}
+        />
         <label>Part-time </label>
       </div>
 
@@ -244,6 +341,8 @@ const CreateEmployee = () => {
           min="20"
           max="38"
           required
+          value={employee.hoursPerWeek}
+          onChange={handleChange}
         />
       </div>
 
@@ -251,6 +350,7 @@ const CreateEmployee = () => {
       <div className={styles.buttonGroup}>
         <button
           type="submit"
+          onClick={handleSubmit}
           className={`${styles.button} ${styles.saveButton}`}
         >
           Save
